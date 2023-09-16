@@ -9,12 +9,13 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const { login } = useAuth();
+  const baseUrl = process.env.BASE_URL
 
   const navigate  = useNavigate ();
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("http://localhost:3001/login", {
+      const response = await axios.post(`${baseUrl}login`, {
         userName: username,
         passPhrase: password,
       });

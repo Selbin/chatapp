@@ -7,6 +7,7 @@ function Chat({ socket, username, room }) {
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
   const [error, setError] = useState("");
+  const baseUrl = process.env.BASE_URL
 
   const navigate = useNavigate();
   const endChat = async () => {
@@ -15,7 +16,7 @@ function Chat({ socket, username, room }) {
       console.log("here", confirmation);
       await socket.emit("end_chat", { room });
     } else {
-      await axios.delete(`http://localhost:3001/delete?room=${room}`, { room });
+      await axios.delete(`${baseUrl}delete?room=${room}`, { room });
     }
     navigate("/login");
   };
@@ -45,7 +46,7 @@ function Chat({ socket, username, room }) {
     socket.on("alert_end_chat", async () => {
       const confirmation = window.confirm("Do you want to save chat?");
       if (!confirmation) {
-        await axios.delete(`http://localhost:3001/delete?room=${room}`);
+        await axios.delete(`${baseUrl}delete?room=${room}`);
       }
       navigate("/login");
     });

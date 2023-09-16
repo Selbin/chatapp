@@ -5,11 +5,13 @@ import { useNavigate  } from "react-router-dom";
 function RegisterPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const baseUrl = process.env.BASE_URL
+
   const navigate  = useNavigate ();
 
   const handleRegister = async () => {
     try {
-      await axios.post("http://localhost:3001/register",{userName: username, passPhrase: password});
+      await axios.post(`${baseUrl}register`,{userName: username, passPhrase: password});
       navigate ("/login");
     } catch (err) {
       console.log(err)
