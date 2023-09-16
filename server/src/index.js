@@ -128,6 +128,6 @@ app.delete("/delete", async (req, res) => {
 
 const port = process.env.PORT || 6000
 
-server.listen(3001, () => {
+server.listen(port, () => {
   console.log(`SERVER RUNNING ON PORT: ${port}`);
 });
