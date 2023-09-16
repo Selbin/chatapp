@@ -1,6 +1,5 @@
 import io from "socket.io-client";
 import { useState } from "react";
-import axios from "axios";
 
 import Chat from "./Chat";
 
@@ -11,7 +10,6 @@ function Home() {
   const [roomname, setRoomname] = useState("");
   const [roomPassphrase, setRoomPassphrase] = useState("");
   const [showChat, setShowChat] = useState(false);
-  const [message, setMessage] = useState("");
 
   const joinRoom = async (type) => {
     if (username !== "" && roomPassphrase !== "" && roomname !== "") {
@@ -25,7 +23,6 @@ function Home() {
       {!showChat ? (
         <div className="inputContainer">
           <h3>Join Room</h3>
-          <h6>{message}</h6>
           <input
             type="text"
             placeholder="User name"
