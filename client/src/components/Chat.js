@@ -61,7 +61,7 @@ function Chat({ socket, username, room }) {
       socket.off("err_connection");
       socket.off("alert_end_chat");
     };
-  }, [navigate, room, socket]);
+  }, [baseUrl, navigate, room, socket]);
 
   return error ? (
     <div>{error}</div>
