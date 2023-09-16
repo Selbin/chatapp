@@ -1,9 +1,10 @@
 const mongoose = require('mongoose')
+const dotEnv = require('dotenv')
 
-const mongodbUri = 'mongodb+srv://selbin:selbin@cluster0.htivliz.mongodb.net/chatapp'
+dotEnv.config()
 
 const dbConnect = () => {
-    return mongoose.connect(mongodbUri, {
+    return mongoose.connect(process.env.MONGODB_URI, {
         minPoolSize: 5
     });
 };

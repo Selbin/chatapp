@@ -4,12 +4,14 @@ const http = require("http");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const { Server } = require("socket.io");
+const dotenv = require('dotenv');
 
 const dbConnect = require("./database/db");
 const Room = require("./model/room");
 const User = require("./model/user");
 const Message = require("./model/message");
 
+dotenv.config()
 dbConnect();
 app.use(express.json());
 app.use(cors());
@@ -124,6 +126,8 @@ app.delete("/delete", async (req, res) => {
   }
 });
 
+const port = process.env.PORT || 6000
+
 server.listen(3001, () => {
-  console.log("SERVER RUNNING");
+  console.log(`SERVER RUNNING ON PORT: ${port}`);
 });
