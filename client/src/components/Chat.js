@@ -7,7 +7,7 @@ function Chat({ socket, username, room }) {
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
   const [error, setError] = useState("");
-  const baseUrl = process.env.BASE_URL
+  const baseUrl = process.env.REACT_APP_BASE_URL
 
   const navigate = useNavigate();
   const endChat = async () => {

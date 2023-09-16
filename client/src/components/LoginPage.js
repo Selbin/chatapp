@@ -9,8 +9,8 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const { login } = useAuth();
-  const baseUrl = process.env.BASE_URL
-
+  const baseUrl = process.env.REACT_APP_BASE_URL
+  
   const navigate  = useNavigate ();
 
   const handleLogin = async () => {
