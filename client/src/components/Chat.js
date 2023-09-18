@@ -10,16 +10,17 @@ function Chat({ socket, username, room }) {
   const baseUrl = process.env.REACT_APP_BASE_URL
 
   const navigate = useNavigate();
+
   const endChat = async () => {
     const confirmation = window.confirm("Do you want to save chat?");
     if (confirmation) {
-      console.log("here", confirmation);
       await socket.emit("end_chat", { room });
     } else {
       await axios.delete(`${baseUrl}delete?room=${room}`, { room });
     }
     navigate("/login");
   };
+
   const sendMessage = async () => {
     if (currentMessage !== "") {
       const messageData = {

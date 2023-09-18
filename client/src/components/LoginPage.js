@@ -5,8 +5,8 @@ import { useNavigate  } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 function LoginPage() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState("");
+  const [passPhrase, setPassphrase] = useState("");
   const [error, setError] = useState("");
   const { login } = useAuth();
   const baseUrl = process.env.REACT_APP_BASE_URL
@@ -16,14 +16,14 @@ function LoginPage() {
   const handleLogin = async () => {
     try {
       const response = await axios.post(`${baseUrl}login`, {
-        userName: username,
-        passPhrase: password,
+        userName,
+        passPhrase,
       });
       const userData = response.data;
       login(userData);
       navigate('/home')
     } catch (err) {
-      if (err.response.status === 404) {
+      if (err.response && err.response.status === 404) {
         setError(err.response.data.message);
       }
     }
@@ -36,14 +36,14 @@ function LoginPage() {
         <input
           type="text"
           placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
         />
         <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          type="text"
+          placeholder="Passphrase"
+          value={passPhrase}
+          onChange={(e) => setPassphrase(e.target.value)}
         />
         <button onClick={handleLogin}>Login</button>
       </div>

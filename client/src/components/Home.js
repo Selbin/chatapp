@@ -1,19 +1,20 @@
 import io from "socket.io-client";
 import { useState } from "react";
 
+import { useAuth } from '../context/AuthContext';
 import Chat from "./Chat";
 
 const socket = io.connect(process.env.REACT_APP_BASE_URL);
 
 function Home() {
-  const [username, setUsername] = useState("");
   const [roomname, setRoomname] = useState("");
   const [roomPassphrase, setRoomPassphrase] = useState("");
   const [showChat, setShowChat] = useState(false);
+  const {user} = useAuth()
 
   const joinRoom = async (type) => {
-    if (username !== "" && roomPassphrase !== "" && roomname !== "") {
-      socket.emit("join_room", { roomPassphrase, roomname, username, type });
+    if (user.id && roomPassphrase !== "" && roomname !== "") {
+      socket.emit("join_room", { roomPassphrase, roomname, username: user.userName, type });
       setShowChat(true);
     }
   };
@@ -23,13 +24,6 @@ function Home() {
       {!showChat ? (
         <div className="inputContainer">
           <h3>Join Room</h3>
-          <input
-            type="text"
-            placeholder="User name"
-            onChange={(event) => {
-              setUsername(event.target.value);
-            }}
-          />
           <input
             type="text"
             placeholder="Room name"
@@ -49,13 +43,6 @@ function Home() {
           <h3>Create Room</h3>
           <input
             type="text"
-            placeholder="User name"
-            onChange={(event) => {
-              setUsername(event.target.value);
-            }}
-          />
-          <input
-            type="text"
             placeholder="Room name"
             onChange={(event) => {
               setRoomname(event.target.value);
@@ -73,7 +60,7 @@ function Home() {
       ) : (
         <Chat
           socket={socket}
-          username={username}
+          username={user.userName}
           room={roomname}
           roomPassphrase={roomPassphrase}
         />
