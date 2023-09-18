@@ -62,7 +62,10 @@ io.on("connection", (socket) => {
       console.log(`User with ID: ${socket.id} joined room: ${data.roomname}`);
     } catch (error) {
       console.log(error.code);
-      socket.emit("err_connection", error.code === 11000? "Room already exists" : "Room is full");
+      socket.emit(
+        "err_connection",
+        error.code === 11000 ? "Room already exists" : "Room is full"
+      );
     }
   });
 
@@ -76,8 +79,13 @@ io.on("connection", (socket) => {
   });
 
   socket.on("end_chat", async ({ room }) => {
-    console.log('testtttt')
-    socket.to(room).emit("alert_end_chat");
+    try {
+      await Room.updateOne({ roomName: room }, { $set: { users: [] } });
+      socket.to(room).emit("alert_end_chat");
+    } catch (error) {
+      console.log(error);
+      socket.to(data.room).emit("err_connection", "Something went wrong");
+    }
   });
 
   socket.on("disconnect", () => {
