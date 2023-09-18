@@ -14,7 +14,7 @@ function Home() {
 
   const joinRoom = async (type) => {
     if (user.id && roomPassphrase !== "" && roomname !== "") {
-      socket.emit("join_room", { roomPassphrase, roomname, username: user.userName, type });
+      socket.emit("join_room", { roomPassphrase, roomname, id: user.id, type });
       setShowChat(true);
     }
   };
@@ -61,6 +61,7 @@ function Home() {
         <Chat
           socket={socket}
           username={user.userName}
+          id={user.id}
           room={roomname}
           roomPassphrase={roomPassphrase}
         />

@@ -4,14 +4,14 @@ const http = require("http");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const { Server } = require("socket.io");
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 
 const dbConnect = require("./database/db");
 const Room = require("./model/room");
 const User = require("./model/user");
 const Message = require("./model/message");
 
-dotenv.config()
+dotenv.config();
 dbConnect();
 app.use(express.json());
 app.use(cors());
@@ -35,16 +35,17 @@ io.on("connection", (socket) => {
         if (!room) {
           return socket.emit("err_connection", "Passphrase does not match");
         }
-        
+
         const verifyPassphrase = await bcrypt.compare(
           data.roomPassphrase,
           room.passPhrase
         );
+
         if (!verifyPassphrase) {
           return socket.emit("err_connection", "Passphrase does not match");
         }
 
-        room.users.push(data.username);
+        room.users.push(data.id);
         await room.save();
         socket.join(data.roomname);
       } else if ((data.type = "create_room")) {
@@ -52,14 +53,16 @@ io.on("connection", (socket) => {
         await Room.create({
           roomName: data.roomname,
           passPhrase: hashedpassPhrase,
-          users: [data.username],
+          users: [data.id],
         });
+
         socket.join(data.roomname);
       }
-      console.log(`User with ID: ${socket.id} joined room: ${data}`);
+
+      console.log(`User with ID: ${socket.id} joined room: ${data.roomname}`);
     } catch (error) {
-      console.log(error);
-      socket.emit("err_connection", "Room is full");
+      console.log(error.code);
+      socket.emit("err_connection", error.code === 11000? "Room already exists" : "Room is full");
     }
   });
 
@@ -73,6 +76,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("end_chat", async ({ room }) => {
+    console.log('testtttt')
     socket.to(room).emit("alert_end_chat");
   });
 
@@ -126,7 +130,7 @@ app.delete("/delete", async (req, res) => {
   }
 });
 
-const port = process.env.PORT || 6000
+const port = process.env.PORT || 6000;
 
 server.listen(port, () => {
   console.log(`SERVER RUNNING ON PORT: ${port}`);

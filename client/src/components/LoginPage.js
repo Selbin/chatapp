@@ -47,7 +47,7 @@ function LoginPage() {
         />
         <button onClick={handleLogin}>Login</button>
       </div>
-      <div>{error}</div>
+      <div style={{color: 'red'}}>{error}</div>
     </>
   );
 }

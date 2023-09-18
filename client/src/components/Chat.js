@@ -3,7 +3,7 @@ import ScrollToBottom from "react-scroll-to-bottom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function Chat({ socket, username, room }) {
+function Chat({ socket, username, room, id }) {
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
   const [error, setError] = useState("");
@@ -26,6 +26,7 @@ function Chat({ socket, username, room }) {
       const messageData = {
         room: room,
         author: username,
+        authorId: id,
         message: currentMessage,
         time:
           new Date(Date.now()).getHours() +

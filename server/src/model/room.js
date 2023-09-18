@@ -5,8 +5,8 @@ const RoomSchema = new mongoose.Schema({
     passPhrase: {type: String, required: true},
     users: [
         {
-          type: String,
-          trim: true
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'User'
         },
       ],
 }, {timestamps: true})
