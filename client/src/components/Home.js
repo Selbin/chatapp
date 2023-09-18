@@ -19,13 +19,14 @@ function Home() {
     setError(false);
     if (user.id && roomPassphrase !== "" && roomname !== "") {
       socket.emit("join_room", { roomPassphrase, roomname, id: user.id, type });
-      setShowChat(true);
+      setTimeout(() => setShowChat(true), 1000)
     }
   };
 
   useEffect(() => {
     socket.on("err_joining", (data) => {
       setError(data);
+      setShowChat(false)
     });
 
     return () => {
