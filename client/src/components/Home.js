@@ -3,6 +3,7 @@ import io from "socket.io-client";
 
 import { useAuth } from "../context/AuthContext";
 import Chat from "./Chat";
+import Sidebar from "./Sidebar";
 
 const socket = io.connect(process.env.REACT_APP_BASE_URL);
 
@@ -15,6 +16,7 @@ function Home() {
   const { user } = useAuth();
 
   const joinRoom = async (type) => {
+    setError(false);
     if (user.id && roomPassphrase !== "" && roomname !== "") {
       socket.emit("join_room", { roomPassphrase, roomname, id: user.id, type });
       setShowChat(true);
@@ -33,39 +35,42 @@ function Home() {
   }, []);
 
   return (
-    <div className="Home">
-      {!showChat || error? (
-        <div className="inputContainer">
-          <h3>Create / Join Room</h3>
-          <input
-            type="text"
-            placeholder="Room name"
-            onChange={(event) => {
-              setRoomname(event.target.value);
-            }}
-          />
-          <input
-            type="text"
-            placeholder="Room passphrase"
-            onChange={(event) => {
-              setRoomPassphrase(event.target.value);
-            }}
-          />
-          <div>
-            <button onClick={() => joinRoom("join")}>Join Room</button>
-            <button onClick={() => joinRoom("create")}>Create Room</button>
+    <div className="homeContainer">
+      <Sidebar />
+      <div className="home">
+        {!showChat || error ? (
+          <div className="inputContainer">
+            <h3>Create / Join Room</h3>
+            <input
+              type="text"
+              placeholder="Room name"
+              onChange={(event) => {
+                setRoomname(event.target.value);
+              }}
+            />
+            <input
+              type="text"
+              placeholder="Room passphrase"
+              onChange={(event) => {
+                setRoomPassphrase(event.target.value);
+              }}
+            />
+            <div>
+              <button onClick={() => joinRoom("join")}>Join Room</button>
+              <button onClick={() => joinRoom("create")}>Create Room</button>
+            </div>
+            <div style={{ color: "red" }}>{error}</div>
           </div>
-          <div style={{color: 'red'}}>{error}</div>
-        </div>
-      ) : (
-        <Chat
-          socket={socket}
-          username={user.userName}
-          id={user.id}
-          room={roomname}
-          roomPassphrase={roomPassphrase}
-        />
-      )}
+        ) : (
+          <Chat
+            socket={socket}
+            username={user.userName}
+            id={user.id}
+            room={roomname}
+            roomPassphrase={roomPassphrase}
+          />
+        )}
+      </div>
     </div>
   );
 }

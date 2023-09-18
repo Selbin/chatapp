@@ -137,6 +137,15 @@ app.delete("/delete", async (req, res) => {
   }
 });
 
+app.get("/rooms", async (req, res) => {
+  try {
+    const rooms = await Room.find({ });
+    return res.status(200).send({ rooms });
+  } catch (error) {
+    res.status(500).send({ message: "something went wrong" });
+  }
+});
+
 const port = process.env.PORT || 6000;
 
 server.listen(port, () => {

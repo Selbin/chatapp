@@ -3,14 +3,22 @@
   background: #fff;
   color: #212121;
   font-family: "Open Sans", sans-serif;
-  display: grid;
-  place-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
+
 body {
   margin: 0%;
   padding: 0%;
 }
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,700");
+
+.homeContainer {
+  display: flex;
+  width: 100vw;
+}
 
 .inputContainer {
   display: flex;
@@ -30,6 +38,12 @@ body {
   border-radius: 5px;
   padding: 5px;
   font-size: 16px;
+}
+
+.home {
+  display: flex;
+  width: -webkit-fill-available;
+  justify-content: center;
 }
 
 .inputContainer button {
@@ -203,3 +217,23 @@ body {
   cursor: pointer;
 }
 
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  overflow-y: auto;
+  background-color: #333;
+  color: white;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  padding: 10px;
+}
+
+.sidebar li:hover {
+  background-color: #555;
+}
