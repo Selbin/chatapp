@@ -40,6 +40,13 @@ function Chat({ socket, username, room, id }) {
     }
   };
 
+  const handleEnter = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      sendMessage()
+    }
+  };
+
   useEffect(() => {
     socket.on("receive_message", (data) => {
       setMessageList((list) => [...list, data]);
@@ -106,10 +113,11 @@ function Chat({ socket, username, room, id }) {
           onChange={(event) => {
             setCurrentMessage(event.target.value);
           }}
+          onKeyDown={handleEnter}
         />
         <button onClick={sendMessage}>Send</button>
       </div>
-      <button onClick={endChat}>End Chat</button>
+      <button className="chat-end-btn" onClick={endChat}>End Chat</button>
     </div>
   );
 }

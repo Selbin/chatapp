@@ -15,7 +15,7 @@ body {
 .inputContainer {
   display: flex;
   flex-direction: column;
-  text-align: center;
+  align-items: center;
 }
 
 .inputContainer h3 {
@@ -23,7 +23,7 @@ body {
   margin-bottom: 1rem;
 }
 .inputContainer input {
-  width: 210px;
+  width: 230px;
   height: 40px;
   margin: 7px;
   border: 2px solid #43a047;
@@ -33,7 +33,7 @@ body {
 }
 
 .inputContainer button {
-  width: 225px;
+  width: 115px;
   height: 50px;
   margin: 7px;
   border: none;
@@ -118,6 +118,7 @@ body {
 }
 
 #you .message-content {
+  width: fit-content;
   justify-content: flex-start;
 }
 
@@ -188,3 +189,17 @@ body {
 .hide {
   opacity: 0 !important;
 }
+
+.chat-end-btn  {
+  width: 100px;
+  height: 40px;
+  margin: 7px 0px;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 16px;
+  background: red;
+  color: #fff;
+  cursor: pointer;
+}
+

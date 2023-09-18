@@ -61,7 +61,6 @@ io.on("connection", (socket) => {
 
       console.log(`User with ID: ${socket.id} joined room: ${data.roomname}`);
     } catch (error) {
-      console.log(error.code);
       socket.emit(
         "err_connection",
         error.code === 11000 ? "Room already exists" : "Room is full"
