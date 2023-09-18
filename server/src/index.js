@@ -33,7 +33,7 @@ io.on("connection", (socket) => {
       if (data.type == "join") {
         const room = await Room.findOne({ roomName: data.roomname });
         if (!room) {
-          return socket.emit("err_connection", "Passphrase does not match");
+          return socket.emit("err_joining", "Passphrase does not match");
         }
 
         const verifyPassphrase = await bcrypt.compare(
@@ -42,7 +42,7 @@ io.on("connection", (socket) => {
         );
 
         if (!verifyPassphrase) {
-          return socket.emit("err_connection", "Passphrase does not match");
+          return socket.emit("err_joining", "Passphrase does not match");
         }
 
         room.users.push(data.id);
@@ -62,7 +62,7 @@ io.on("connection", (socket) => {
       console.log(`User with ID: ${socket.id} joined room: ${data.roomname}`);
     } catch (error) {
       socket.emit(
-        "err_connection",
+        "err_joining",
         error.code === 11000 ? "Room already exists" : "Room is full"
       );
     }

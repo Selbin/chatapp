@@ -1,5 +1,5 @@
+import { useEffect, useState } from "react";
 import io from "socket.io-client";
-import { useState } from "react";
 
 import { useAuth } from "../context/AuthContext";
 import Chat from "./Chat";
@@ -10,6 +10,8 @@ function Home() {
   const [roomname, setRoomname] = useState("");
   const [roomPassphrase, setRoomPassphrase] = useState("");
   const [showChat, setShowChat] = useState(false);
+  const [error, setError] = useState(false);
+
   const { user } = useAuth();
 
   const joinRoom = async (type) => {
@@ -19,9 +21,20 @@ function Home() {
     }
   };
 
+  useEffect(() => {
+    socket.on("err_joining", (data) => {
+      setError(data);
+    });
+
+    return () => {
+      // Clean up the subscription when the component unmounts\
+      socket.off("err_connection");
+    };
+  }, []);
+
   return (
     <div className="Home">
-      {!showChat ? (
+      {!showChat || error? (
         <div className="inputContainer">
           <h3>Create / Join Room</h3>
           <input
@@ -42,6 +55,7 @@ function Home() {
             <button onClick={() => joinRoom("join")}>Join Room</button>
             <button onClick={() => joinRoom("create")}>Create Room</button>
           </div>
+          <div style={{color: 'red'}}>{error}</div>
         </div>
       ) : (
         <Chat
