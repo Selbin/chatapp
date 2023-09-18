@@ -98,7 +98,7 @@ body {
 .chat-window .chat-body .message .message-content {
   width: auto;
   height: auto;
-  min-height: 40px;
+  padding: 6px;
   max-width: 120px;
   background-color: #43a047;
   border-radius: 5px;
