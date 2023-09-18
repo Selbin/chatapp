@@ -18,6 +18,7 @@ function Sidebar() {
 
     fetchData();
   }, []);
+  
   return (
     <div className="sidebar">
       <h3 style={{ color: "#43a047", padding: "10px", margin: "5px" }}>
